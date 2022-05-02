@@ -1,0 +1,130 @@
+--CREATE DATABASE PROYECTO;
+
+
+create table  if not exists Colores(
+	Id_Color serial primary key not null,
+	Color varchar(30)
+ );
+ 
+ create table  if not exists Tallas(
+	Id_Talla serial primary key not null,
+	Talla varchar(30)
+ );
+ 
+  create table  if not exists Categoria(
+	Id_Categoria serial primary key not null,
+	Categoria varchar(30)
+ );
+
+
+ create table  if not exists Productos(
+	Id_Producto serial primary key not null,
+	Nombre varchar(15),
+	Categoria int,
+	Descripcion varchar(15)	 
+ );
+ 
+ 
+	
+ create table  if not exists Productos_Color(
+	Id_Producto int not null,
+	Color int,
+	Cantidad int 	 
+ );
+ 
+  create table  if not exists Productos_Talla(
+	Id_Producto int not null,
+	Talla int,
+	Cantidad int 	 
+ );
+ 
+ create type Direccion as(
+	Colonia varchar(30),
+	ciudad varchar(30),
+	calle varchar(30),
+	avenida varchar(30),
+	estado varchar(30)
+ );
+ 
+  create table  if not exists Clientes(
+	Id_Cliente serial primary key not null,
+	Nombre varchar(30),
+	ApellidoP varchar(30),
+	ApellidoM varchar(30),
+	Direccion Direccion,
+	Telefono varchar(16)	 
+ );
+ 
+ 
+   create table  if not exists Tipo_Empleado(
+	Id_Tipo serial primary key not null,
+	Tipo varchar(30)
+		 
+ );
+ 
+ 
+	
+	
+  create table  if not exists Empleados(
+	Id_Empleado serial primary key not null,
+	Nombre varchar(30),
+	ApellidoP varchar(30),
+	ApellidoM varchar(30),
+	Direccion Direccion,
+	Telefono varchar(16),
+	Fecha_Nac date,
+	Tipo_Empleado int,
+	Sueldo  int,
+	foreign key (Tipo_Empleado) references Tipo_Empleado(Id_Tipo)
+ );
+ 
+   create table  if not exists Detalle_Venta(
+	Id_Venta serial primary key not null,
+	Id_Cliente int,
+	Id_Empleado int,
+	Fecha Date,
+	Hora time,
+	Direccion_Entrega Direccion,
+	Total int,
+	Estatus_Pago boolean,
+	foreign key (Id_Cliente) references Clientes(Id_Cliente),
+	foreign key (Id_Empleado) references Empleados(ID_Empleado)
+ );
+ --------------------------------------
+ 
+    create table  if not exists Venta_Final(
+	Id_Venta int  not null,
+	Id_Producto int,
+	Cantidad int,
+    Total int,
+	foreign key (Id_Venta) references Detalle_Venta(Id_Venta),
+	foreign key (Id_Producto) references Productos(Id_Producto)
+ );
+ 
+    create table  if not exists Envios(
+	Id_Venta int  not null,
+	Id_Empleado int,
+	Fecha_Envio date,
+	Fecha_Entrega date,
+	Recibio varchar(40),
+	foreign key (Id_Venta) references Detalle_Venta(Id_Venta),
+	foreign key (Id_Empleado) references Empleados(ID_Empleado)
+ );
+ 
+     create table  if not exists Pedidos(
+	Id_Pedidos Serial primary key  not null,
+	Id_Cliente int,
+    Foto varchar(50),
+	Precio int,
+	Fecha_Ped date,
+	Fecha_Entrega date,
+	Comentarios varchar(100),
+	foreign key (Id_Cliente) references Clientes(ID_Cliente)
+ );
+ 
+ 
+ 
+ 
+ 	
+ 
+ 
